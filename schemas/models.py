@@ -1,5 +1,6 @@
 from typing import Optional
 from uuid import UUID
+from datetime import datetime
 
 from pydantic import BaseModel
 
@@ -28,3 +29,23 @@ class UpdatePost(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class Customer(BaseModel):
+    id: UUID
+    Name: str
+
+
+class Product(BaseModel):
+    Product_id: UUID
+    Product_name: str
+    Category: str
+    Price: float #double
+
+
+class Order(BaseModel):
+    Order_id: UUID
+    Order_date: datetime
+    Customer_id: UUID
+    Product_id: UUID
+    Quantity: int

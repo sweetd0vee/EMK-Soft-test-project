@@ -4,8 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-#SQLALCHEMY_DATABASE_URL = config("DATABASE_URL")
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:@localhost:5432/shop"
+SQLALCHEMY_DATABASE_URL = config("DATABASE_URL")
+#SQLALCHEMY_DATABASE_URL = "postgresql://postgres:@localhost:5432/shop"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
