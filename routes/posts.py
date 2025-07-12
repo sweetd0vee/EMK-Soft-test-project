@@ -14,7 +14,6 @@ from utils.post_crud import (
 )
 
 router = APIRouter(tags=["posts"])
-# router = APIRouter(tags=["orders", "customers", "products"])
 
 
 @router.post("/create", status_code=status.HTTP_201_CREATED, response_model=Post)

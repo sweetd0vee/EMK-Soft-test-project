@@ -31,21 +31,21 @@ class UpdatePost(BaseModel):
         orm_mode = True
 
 
-class Customer(BaseModel):
-    id: UUID
-    Name: str
+# class Customer(BaseModel):
+#     id: UUID # PK
+#     Name: str
 
 
-class Product(BaseModel):
-    Product_id: UUID
-    Product_name: str
-    Category: str
-    Price: float #double
+# class Product(BaseModel):
+#     Product_id: UUID # PK
+#     Product_name: str
+#     Category: str
+#     Price: float #double
 
 
-class Order(BaseModel):
-    Order_id: UUID
-    Order_date: datetime
-    Customer_id: UUID
-    Product_id: UUID
-    Quantity: int
+# class Order(BaseModel):
+#     Order_id: UUID # PK
+#     Order_date: datetime
+#     Customer_id: UUID # FK
+#     Product_id: UUID # FK
+#     Quantity: int
