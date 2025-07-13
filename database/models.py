@@ -7,12 +7,11 @@ from sqlalchemy.dialects.postgresql import UUID
 from database.connection import Base, engine
 
 
-class Posts(Base):
-    __tablename__ = "posts"
+class Customers(Base):
+    __tablename__ = "customers"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    title = Column(String)
-    description = Column(String)
+    customer_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    customer_name = Column(String)
 
 
 class Products(Base):
@@ -22,13 +21,6 @@ class Products(Base):
     product_name = Column(String)
     category = Column(String)
     price = Column(DECIMAL)
-
-
-class Customers(Base):
-    __tablename__ = "customers"
-
-    customer_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    customer_name = Column(String)
 
 
 class Orders(Base):

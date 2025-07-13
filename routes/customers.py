@@ -12,25 +12,25 @@ from utils.customer_crud import (
     customer_delete
 )
 
-router = APIRouter(tags=["customers"])
+router_customers = APIRouter(tags=["customers"])
 
 
-@router.post("/create", status_code=status.HTTP_201_CREATED, response_model=Customer)
+@router_customers.post("/create", status_code=status.HTTP_201_CREATED, response_model=Customer)
 def create_customer(customer: Customer, db: Session = Depends(get_db)):
     return customer_create(db=db, customer=customer)
 
 
-@router.get("/list/all", status_code=status.HTTP_200_OK, response_model=List[Customer])
+@router_customers.get("/list/all", status_code=status.HTTP_200_OK, response_model=List[Customer])
 def get_all_customers(db: Session = Depends(get_db)):
     return customers_get_all(db=db)
 
 
-@router.get("/get/{id}", status_code=status.HTTP_200_OK, response_model=Customer)
+@router_customers.get("/get/{id}", status_code=status.HTTP_200_OK, response_model=Customer)
 def get_one_customer(id, db: Session = Depends(get_db)):
     return customer_get_one(db=db, id=id)
 
 
-@router.delete(
+@router_customers.delete(
     "/delete/{id}", status_code=status.HTTP_200_OK, response_model=DeleteCustomerResponse
 )
 def delete_customer(id, db: Session = Depends(get_db)):

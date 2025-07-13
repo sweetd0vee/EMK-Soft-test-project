@@ -9,33 +9,14 @@ class HealthResponse(BaseModel):
     status: str
 
 
-class Post(BaseModel):
-    id: Optional[UUID]
-    title: str
-    description: str
-
-    class Config:
-        orm_mode = True
-
-
-class DeletePostResponse(BaseModel):
-    detail: str
-
-
-class UpdatePost(BaseModel):
-    id: UUID
-    title: str
-    description: str
-
-    class Config:
-        orm_mode = True
-
-
 class Product(BaseModel):
     product_id: Optional[UUID]
     product_name: str
     category: str
     price: float
+
+    class Config:
+        orm_mode = True
 
 
 class DeleteProductResponse(BaseModel):
@@ -45,6 +26,9 @@ class DeleteProductResponse(BaseModel):
 class Customer(BaseModel):
     id: Optional[UUID]
     customer_name: str
+
+    class Config:
+        orm_mode = True
 
 
 class DeleteCustomerResponse(BaseModel):
@@ -58,6 +42,13 @@ class Order(BaseModel):
     product_id: UUID
     quantity: int
 
+    class Config:
+        orm_mode = True
+
+
+class DeleteOrderResponse(BaseModel):
+    detail: str
+
 
 class UpdateOrder(BaseModel):
     order_id: UUID
@@ -66,7 +57,5 @@ class UpdateOrder(BaseModel):
     product_id: UUID
     quantity: int
 
-
-class DeleteOrderResponse(BaseModel):
-    detail: str
-
+    class Config:
+        orm_mode = True

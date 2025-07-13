@@ -31,6 +31,7 @@ def order_get_all_date(db:Session, order_date):
 def order_get_all_customer(db: Session, customer_id):
     return db.query(Orders).filter_by(customer_id=customer_id).all()
 
+
 def order_get_one_id(db: Session, id: UUID):
     return db.query(Orders).filter_by(id=id).one()
 
@@ -57,4 +58,4 @@ def order_delete(db: Session, id: UUID):
         return DeleteOrderResponse(detail="Order doesn't exist")
     db.query(Orders).filter_by(id=id).delete()
     db.commit()
-    return DeleteOderResponse(detail="Order deleted")
+    return DeleteOrderResponse(detail="Order deleted")

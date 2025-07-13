@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes.posts import router
+from routes.customers import router_customers
+from routes.orders import router_orders
+from routes.products import router_products
+
 from schemas.models import HealthResponse
 
 app = FastAPI()
@@ -16,10 +19,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(router=router, prefix="/posts")
-app.include_router(router=router, prefix="/customers")
-app.include_router(router=router, prefix="/products")
-app.include_router(router=router, prefix="/orders")
+app.include_router(router=router_customers, prefix="/customers")
+app.include_router(router=router_products, prefix="/products")
+app.include_router(router=router_orders, prefix="/orders")
+
 
 @app.get("/", response_model=HealthResponse)
 async def health():

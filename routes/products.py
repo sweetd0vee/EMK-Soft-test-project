@@ -11,20 +11,20 @@ from utils.product_crud import (
     product_delete
 )
 
-router = APIRouter(tags=["products"])
+router_products = APIRouter(tags=["products"])
 
 
-@router.post("/create", status_code=status.HTTP_201_CREATED, response_model=Product)
+@router_products.post("/create", status_code=status.HTTP_201_CREATED, response_model=Product)
 def create_product(product: Product, db: Session = Depends(get_db)):
-    return product_create(db=db, customer=product)
+    return product_create(db=db, product=product)
 
 
-@router.get("/list/all", status_code=status.HTTP_200_OK, response_model=List[Product])
+@router_products.get("/list/all", status_code=status.HTTP_200_OK, response_model=List[Product])
 def get_all_products(db: Session = Depends(get_db)):
     return product_get_all(db=db)
 
 
-@router.delete(
+@router_products.delete(
     "/delete/{id}", status_code=status.HTTP_200_OK, response_model=DeleteProductResponse
 )
 def delete_product(id, db: Session = Depends(get_db)):

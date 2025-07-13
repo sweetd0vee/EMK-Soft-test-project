@@ -6,10 +6,10 @@ from database.models import Products
 from schemas.models import Product, DeleteProductResponse
 
 
-def product_create(db: Session, customer: Product):
-    db_customer = Products(product_name=Product.product_name,
-                           category=Product.category,
-                           price=Product.price)
+def product_create(db: Session, product: Product):
+    db_customer = Products(product_name=product.product_name,
+                           category=product.category,
+                           price=product.price)
     db.add(db_customer)
     db.commit()
     db.refresh(db_customer)
