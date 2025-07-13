@@ -2,7 +2,7 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from database.models import Posts #, Customer, Product, Order
+from database.models import Posts
 from schemas.models import DeletePostResponse, Post, UpdatePost
 
 
@@ -14,28 +14,12 @@ def post_create(db: Session, post: Post):
     return db_post
 
 
-# def customer_create(db: Session, customer: Customer):
-#     db_customer = Customer()
-#     db.add(db_customer)
-#     db.commit()
-#     db.refresh(db_customer)
-#     return db_customer
-
-
 def posts_get_all(db: Session):
     return db.query(Posts).all()
 
 
-# def orders_get_all(db: Session):
-#     return db.query(Orders).all()
-
-
 def post_get_one(db: Session, id: UUID):
     return db.query(Posts).filter_by(id=id).one()
-
-
-# def order_get_one(db: Session, customer_id: UUID):
-#     return db.query(Orders).filter_by(customer_id=id).one()
 
 
 def post_update(db: Session, post: UpdatePost):

@@ -31,21 +31,34 @@ class UpdatePost(BaseModel):
         orm_mode = True
 
 
-# class Customer(BaseModel):
-#     id: UUID # PK
-#     Name: str
+class Product(BaseModel):
+    Product_id: Optional[UUID] # PK
+    Product_name: str
+    Category: str
+    Price: float #double
 
 
-# class Product(BaseModel):
-#     Product_id: UUID # PK
-#     Product_name: str
-#     Category: str
-#     Price: float #double
+class DeleteProductResponse(BaseModel):
+    description: str
 
 
-# class Order(BaseModel):
-#     Order_id: UUID # PK
-#     Order_date: datetime
-#     Customer_id: UUID # FK
-#     Product_id: UUID # FK
-#     Quantity: int
+class Customer(BaseModel):
+    id: Optional[UUID]         # PK
+    Name: str
+
+
+class DeleteCustomerResponse(BaseModel):
+    detail: str
+
+
+class Order(BaseModel):
+    Order_id: Optional[UUID]    # PK
+    Order_date: datetime
+    Customer_id: UUID           # FK
+    Product_id: UUID            # FK
+    Quantity: int
+
+
+class DeleteOrderResponse(BaseModel):
+    detail: str
+
