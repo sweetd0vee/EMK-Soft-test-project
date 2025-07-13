@@ -17,7 +17,9 @@ app.add_middleware(
 )
 
 app.include_router(router=router, prefix="/posts")
-
+app.include_router(router=router, prefix="/customers")
+app.include_router(router=router, prefix="/products")
+app.include_router(router=router, prefix="/orders")
 
 @app.get("/", response_model=HealthResponse)
 async def health():

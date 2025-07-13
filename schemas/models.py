@@ -32,10 +32,10 @@ class UpdatePost(BaseModel):
 
 
 class Product(BaseModel):
-    Product_id: Optional[UUID] # PK
-    Product_name: str
-    Category: str
-    Price: float #double
+    product_id: Optional[UUID]
+    product_name: str
+    category: str
+    price: float
 
 
 class DeleteProductResponse(BaseModel):
@@ -43,8 +43,8 @@ class DeleteProductResponse(BaseModel):
 
 
 class Customer(BaseModel):
-    id: Optional[UUID]         # PK
-    Name: str
+    id: Optional[UUID]
+    customer_name: str
 
 
 class DeleteCustomerResponse(BaseModel):
@@ -52,11 +52,11 @@ class DeleteCustomerResponse(BaseModel):
 
 
 class Order(BaseModel):
-    Order_id: Optional[UUID]    # PK
-    Order_date: datetime
-    Customer_id: UUID           # FK
-    Product_id: UUID            # FK
-    Quantity: int
+    order_id: Optional[UUID]    # PK
+    order_date: datetime
+    customer_id: UUID           # FK
+    product_id: UUID            # FK
+    quantity: int
 
 
 class DeleteOrderResponse(BaseModel):

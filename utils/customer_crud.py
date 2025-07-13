@@ -7,7 +7,7 @@ from schemas.models import Customer, DeleteCustomerResponse
 
 
 def customer_create(db: Session, customer: Customer):
-    db_customer = Customers(name=customer.name)
+    db_customer = Customers(customer_name=customer.customer_name)
     db.add(db_customer)
     db.commit()
     db.refresh(db_customer)
@@ -25,7 +25,7 @@ def customer_get_one(db: Session, id: UUID):
 def customer_delete(db: Session, id: UUID):
     customer = db.query(Customers).filter_by(id=id).all()
     if not customer:
-        return DeleteCustomerResponse(detail="Doesnt Exist")
+        return DeleteCustomerResponse(detail="Customer doesnt Exist")
     db.query(Customers).filter_by(id=id).delete()
     db.commit()
-    return DeleteCustomerResponse(detail="Post Deleted")
+    return DeleteCustomerResponse(detail="Customer Deleted")

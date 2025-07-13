@@ -6,19 +6,19 @@ from sqlalchemy.orm import Session
 from database.connection import get_db
 from schemas.models import DeletePostResponse, Post, UpdatePost
 from utils.post_crud import (
-    post_create,
-    post_delete,
-    post_get_one,
-    post_update,
-    posts_get_all,
+    order_create,
+    order_delete,
+    order_get_one,
+    order_update,
+    order_get_all,
 )
 
 router = APIRouter(tags=["orders"])
 
 
 @router.post("/create", status_code=status.HTTP_201_CREATED, response_model=Post)
-def create_post(post: Post, db: Session = Depends(get_db)):
-    return post_create(db=db, post=post)
+def create_post(order: Order, db: Session = Depends(get_db)):
+    return order_create(db=db, order=order)
 
 
 @router.get("/list/all", status_code=status.HTTP_200_OK, response_model=List[Post])

@@ -16,7 +16,7 @@ router = APIRouter(tags=["customers"])
 
 
 @router.post("/create", status_code=status.HTTP_201_CREATED, response_model=Customer)
-def create_post(customer: Customer, db: Session = Depends(get_db)):
+def create_customer(customer: Customer, db: Session = Depends(get_db)):
     return customer_create(db=db, customer=customer)
 
 
@@ -33,11 +33,11 @@ def get_one_customer(id, db: Session = Depends(get_db)):
 @router.delete(
     "/delete/{id}", status_code=status.HTTP_200_OK, response_model=DeleteCustomerResponse
 )
-def delete_post(id, db: Session = Depends(get_db)):
+def delete_customer(id, db: Session = Depends(get_db)):
     delete_status = customer_delete(db=db, id=id)
-    if delete_status.detail == "Doesnt Exist":
+    if delete_status.detail == "Customer doesnt Exist":
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Post Not Found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="Customer Not Found"
         )
     else:
         return delete_status

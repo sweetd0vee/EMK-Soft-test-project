@@ -15,7 +15,7 @@ router = APIRouter(tags=["products"])
 
 
 @router.post("/create", status_code=status.HTTP_201_CREATED, response_model=Product)
-def create_post(product: Product, db: Session = Depends(get_db)):
+def create_product(product: Product, db: Session = Depends(get_db)):
     return product_create(db=db, customer=product)
 
 
@@ -27,7 +27,7 @@ def get_all_products(db: Session = Depends(get_db)):
 @router.delete(
     "/delete/{id}", status_code=status.HTTP_200_OK, response_model=DeleteProductResponse
 )
-def delete_post(id, db: Session = Depends(get_db)):
+def delete_product(id, db: Session = Depends(get_db)):
     delete_status = product_delete(db=db, id=id)
     if delete_status.detail == "Doesnt Exist":
         raise HTTPException(
