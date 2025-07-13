@@ -59,3 +59,10 @@ class UpdateOrder(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class OrdersSearchFilter(BaseModel):
+    order_id: Optional[UUID]
+    product_id: Optional[UUID]
+    customer_id: Optional[UUID]
+    quantity: Optional[int]

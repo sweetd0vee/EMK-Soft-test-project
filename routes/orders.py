@@ -4,17 +4,17 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from database.connection import get_db
-from schemas.models import DeleteOrderResponse, Order, UpdateOrder
+from schemas.models import DeleteOrderResponse, Order, UpdateOrder, OrdersSearchFilter
 from utils.order_crud import (
      order_create,
      orders_get_all,
      order_get_one,
      order_delete,
      order_update,
-     order_get_all_customer
+     orders_search
 )
 
-# order_create, orders_get_all, order_delete, order_update, order_get_one, order_get_all_customer
+# order_create, orders_get_all, order_delete, order_update, order_get_one
 
 
 router_orders = APIRouter(tags=["orders"])
@@ -53,8 +53,7 @@ def update_order(order: UpdateOrder, db: Session = Depends(get_db)):
     return order_update(db=db, order=order)
 
 
-# # OrderSearchFilter # динамический запрос?
-# @router_orders.post("/search", status_code=status.HTTP_200_OK, response_model=Order)
-# def get_one_order(customer_id, db: Session = Depends(get_db)):
-#     return order_search(db=db, )
+@router_orders.post("/search", status_code=status.HTTP_200_OK, response_model=List[Order])
+def search_orders(filter: OrdersSearchFilter, db: Session = Depends(get_db)):
+    return orders_search(db=db, filter=filter)
 
