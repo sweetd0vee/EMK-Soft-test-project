@@ -5,3 +5,6 @@ FastAPI Web Service. It uses SQLAlchemy as the ORM.
 - Python 3.9
 - Pip
 - Other listed in requirements.txt
+
+# without docker:
+>> uvicorn main:app 

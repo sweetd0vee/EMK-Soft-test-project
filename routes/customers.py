@@ -25,13 +25,13 @@ def get_all_customers(db: Session = Depends(get_db)):
     return customers_get_all(db=db)
 
 
-@router_customers.get("/get/{id}", status_code=status.HTTP_200_OK, response_model=Customer)
+@router_customers.get("/{id}", status_code=status.HTTP_200_OK, response_model=Customer)
 def get_one_customer(id, db: Session = Depends(get_db)):
     return customer_get_one(db=db, id=id)
 
 
 @router_customers.delete(
-    "/delete/{id}", status_code=status.HTTP_200_OK, response_model=DeleteCustomerResponse
+    "/{id}", status_code=status.HTTP_200_OK, response_model=DeleteCustomerResponse
 )
 def delete_customer(id, db: Session = Depends(get_db)):
     delete_status = customer_delete(db=db, id=id)

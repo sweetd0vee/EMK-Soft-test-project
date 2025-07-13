@@ -25,7 +25,7 @@ def get_all_products(db: Session = Depends(get_db)):
 
 
 @router_products.delete(
-    "/delete/{id}", status_code=status.HTTP_200_OK, response_model=DeleteProductResponse
+    "/{id}", status_code=status.HTTP_200_OK, response_model=DeleteProductResponse
 )
 def delete_product(id, db: Session = Depends(get_db)):
     delete_status = product_delete(db=db, id=id)

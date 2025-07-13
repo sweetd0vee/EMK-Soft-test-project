@@ -31,7 +31,7 @@ def get_all_orders(db: Session = Depends(get_db)):
 
 
 @router_orders.delete(
-    "/delete/{id}", status_code=status.HTTP_200_OK, response_model=DeleteOrderResponse
+    "/{id}", status_code=status.HTTP_200_OK, response_model=DeleteOrderResponse
 )
 def delete_order(id, db: Session = Depends(get_db)):
     delete_status = order_delete(db=db, id=id)
@@ -43,7 +43,7 @@ def delete_order(id, db: Session = Depends(get_db)):
         return delete_status
 
 
-@router_orders.get("/get/{id}", status_code=status.HTTP_200_OK, response_model=Order)
+@router_orders.get("/{id}", status_code=status.HTTP_200_OK, response_model=Order)
 def get_one_order(id, db: Session = Depends(get_db)):
     return order_get_one(db=db, id=id)
 
@@ -53,6 +53,8 @@ def update_order(order: UpdateOrder, db: Session = Depends(get_db)):
     return order_update(db=db, order=order)
 
 
-@router_orders.get("/get/{customer_id}", status_code=status.HTTP_200_OK, response_model=Order)
-def get_one_order(customer_id, db: Session = Depends(get_db)):
-    return order_get_all_customer(db=db, customer_id=customer_id)
+# # OrderSearchFilter # динамический запрос?
+# @router_orders.post("/search", status_code=status.HTTP_200_OK, response_model=Order)
+# def get_one_order(customer_id, db: Session = Depends(get_db)):
+#     return order_search(db=db, )
+
