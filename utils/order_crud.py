@@ -23,8 +23,8 @@ def orders_get_all(db: Session):
 
 
 # все заказы по дате
-def order_get_all_date(db:Session, order_date):
-    return db.query(Orders).filter_by(order_date=order_date).all()
+# def order_get_all_date(db:Session, order_date):
+#     return db.query(Orders).filter_by(order_date=order_date).all()
 
 
 # все заказы по customer_id
