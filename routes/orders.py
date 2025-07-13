@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from database.connection import get_db
-from schemas.models import DeletePostResponse, Post, UpdatePost
+from schemas.models import DeleteOrderResponse, Order, UpdateOrder
 from utils.post_crud import (
     order_create,
     order_delete,

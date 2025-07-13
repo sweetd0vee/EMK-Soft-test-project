@@ -52,10 +52,18 @@ class DeleteCustomerResponse(BaseModel):
 
 
 class Order(BaseModel):
-    order_id: Optional[UUID]    # PK
+    order_id: Optional[UUID]
     order_date: datetime
-    customer_id: UUID           # FK
-    product_id: UUID            # FK
+    customer_id: UUID
+    product_id: UUID
+    quantity: int
+
+
+class UpdateOrder(BaseModel):
+    order_id: UUID
+    order_date: datetime
+    customer_id: UUID
+    product_id: UUID
     quantity: int
 
 

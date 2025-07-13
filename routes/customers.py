@@ -35,9 +35,9 @@ def get_one_customer(id, db: Session = Depends(get_db)):
 )
 def delete_customer(id, db: Session = Depends(get_db)):
     delete_status = customer_delete(db=db, id=id)
-    if delete_status.detail == "Customer doesnt Exist":
+    if delete_status.detail == "customer doesn't exist":
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Customer Not Found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="customer not found"
         )
     else:
         return delete_status

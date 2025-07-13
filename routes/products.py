@@ -29,9 +29,9 @@ def get_all_products(db: Session = Depends(get_db)):
 )
 def delete_product(id, db: Session = Depends(get_db)):
     delete_status = product_delete(db=db, id=id)
-    if delete_status.detail == "Doesnt Exist":
+    if delete_status.detail == "product doesn't exist":
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Product Not Found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="product not found"
         )
     else:
         return delete_status
