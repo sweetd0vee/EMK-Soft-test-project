@@ -16,7 +16,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"product_name\": \"iphone 14 pro\",\n    \"category\": \"tech\",\n    \"price\": 1.0\n}",
+					"raw": "{\n    \"product_name\": \"apple watch\",\n    \"category\": \"tech\",\n    \"price\": 0.5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -48,7 +48,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"customer_name\": \"Arina\"\n}",
+					"raw": "{\n    \"customer_name\": \"Dasha\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -80,7 +80,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"order_date\": \"2025-04-23T18:25:43.511Z\",\n    \"customer_id\": 0,\n    \"product_id\": 0,\n    \"quantity\": 1\n}",
+					"raw": "{\n    \"order_date\": \"2025-04-23T18:25:43.511Z\",\n    \"customer_id\": \"2d78406e-4251-4362-871d-0aad2bfa8636\",\n    \"product_id\": \"52db1078-3c45-438f-9dc9-65f0abaa5ee8\",\n    \"quantity\": 1\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -107,9 +107,37 @@
 		},
 		{
 			"name": "products/list/all",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/products/list/all",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"products",
+						"list",
+						"all"
+					]
+				}
 			},
 			"response": []
 		},
@@ -168,7 +196,7 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "products/{id}",
 			"request": {
 				"method": "GET",
 				"header": []
@@ -176,7 +204,7 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "customers/{id}",
 			"request": {
 				"method": "GET",
 				"header": []
@@ -184,10 +212,52 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "orders/{id}",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/orders/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "orders/search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"quantity\": 1\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/orders/search",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"orders",
+						"search"
+					]
+				}
 			},
 			"response": []
 		}
