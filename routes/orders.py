@@ -8,11 +8,14 @@ from schemas.models import DeleteOrderResponse, Order, UpdateOrder
 from utils.order_crud import (
      order_create,
      orders_get_all,
+     order_get_one,
      order_delete,
-     order_get_one_id,
      order_update,
-     order_get_all,
+     order_get_all_customer
 )
+
+# order_create, orders_get_all, order_delete, order_update, order_get_one, order_get_all_customer
+
 
 router_orders = APIRouter(tags=["orders"])
 
@@ -42,9 +45,14 @@ def delete_order(id, db: Session = Depends(get_db)):
 
 @router_orders.get("/get/{id}", status_code=status.HTTP_200_OK, response_model=Order)
 def get_one_order(id, db: Session = Depends(get_db)):
-    return order_get_one_id(db=db, id=id)
+    return order_get_one(db=db, id=id)
 
 
 @router_orders.patch("/update", status_code=status.HTTP_200_OK, response_model=Order)
-def update_post(post: UpdateOrder, db: Session = Depends(get_db)):
-    return order_update(db=db, post=post)
+def update_order(order: UpdateOrder, db: Session = Depends(get_db)):
+    return order_update(db=db, order=order)
+
+
+@router_orders.get("/get/{customer_id}", status_code=status.HTTP_200_OK, response_model=Order)
+def get_one_order(customer_id, db: Session = Depends(get_db)):
+    return order_get_all_customer(db=db, customer_id=customer_id)
