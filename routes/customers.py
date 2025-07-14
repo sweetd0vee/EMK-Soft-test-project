@@ -25,16 +25,16 @@ def get_all_customers(db: Session = Depends(get_db)):
     return customers_get_all(db=db)
 
 
-@router_customers.get("/{id}", status_code=status.HTTP_200_OK, response_model=Customer)
-def get_one_customer(id, db: Session = Depends(get_db)):
-    return customer_get_one(db=db, id=id)
+@router_customers.get("/{customer_id}", status_code=status.HTTP_200_OK, response_model=Customer)
+def get_one_customer(customer_id, db: Session = Depends(get_db)):
+    return customer_get_one(db=db, customer_id=customer_id)
 
 
 @router_customers.delete(
-    "/{id}", status_code=status.HTTP_200_OK, response_model=DeleteCustomerResponse
+    "/{customer_id}", status_code=status.HTTP_200_OK, response_model=DeleteCustomerResponse
 )
-def delete_customer(id, db: Session = Depends(get_db)):
-    delete_status = customer_delete(db=db, id=id)
+def delete_customer(customer_id, db: Session = Depends(get_db)):
+    delete_status = customer_delete(db=db, customer_id=customer_id)
     if delete_status.detail == "customer doesn't exist":
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="customer not found"

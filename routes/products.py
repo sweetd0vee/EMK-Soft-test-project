@@ -24,11 +24,9 @@ def get_all_products(db: Session = Depends(get_db)):
     return product_get_all(db=db)
 
 
-@router_products.delete(
-    "/{id}", status_code=status.HTTP_200_OK, response_model=DeleteProductResponse
-)
-def delete_product(id, db: Session = Depends(get_db)):
-    delete_status = product_delete(db=db, id=id)
+@router_products.delete("/{product_id}", status_code=status.HTTP_200_OK, response_model=DeleteProductResponse)
+def delete_product(product_id, db: Session = Depends(get_db)):
+    delete_status = product_delete(db=db, product_id=product_id)
     if delete_status.detail == "product doesn't exist":
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="product not found"

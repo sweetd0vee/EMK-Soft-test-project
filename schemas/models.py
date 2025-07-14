@@ -24,7 +24,7 @@ class DeleteProductResponse(BaseModel):
 
 
 class Customer(BaseModel):
-    id: Optional[UUID]
+    customer_id: Optional[UUID]
     customer_name: str
 
     class Config:

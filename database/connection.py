@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 SQLALCHEMY_DATABASE_URL = config("DATABASE_URL")
-#SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgres@127.0.0.1:5432/shop" #локально
+#SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgres@127.0.0.1:5432/shop" # local database
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 

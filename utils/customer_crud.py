@@ -18,14 +18,14 @@ def customers_get_all(db: Session):
     return db.query(Customers).all()
 
 
-def customer_get_one(db: Session, id: UUID):
-    return db.query(Customers).filter_by(id=id).one()
+def customer_get_one(db: Session, customer_id: UUID):
+    return db.query(Customers).filter_by(customer_id=customer_id).one()
 
 
-def customer_delete(db: Session, id: UUID):
-    customer = db.query(Customers).filter_by(id=id).all()
+def customer_delete(db: Session, customer_id: UUID):
+    customer = db.query(Customers).filter_by(customer_id=customer_id).all()
     if not customer:
-        return DeleteCustomerResponse(detail="Customer doesnt Exist")
-    db.query(Customers).filter_by(id=id).delete()
+        return DeleteCustomerResponse(detail="customer doesn't exist")
+    db.query(Customers).filter_by(customer_id=customer_id).delete()
     db.commit()
-    return DeleteCustomerResponse(detail="Customer Deleted")
+    return DeleteCustomerResponse(detail="customer deleted")

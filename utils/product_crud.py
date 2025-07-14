@@ -7,9 +7,11 @@ from schemas.models import Product, DeleteProductResponse
 
 
 def product_create(db: Session, product: Product):
-    db_customer = Products(product_name=product.product_name,
-                           category=product.category,
-                           price=product.price)
+    db_customer = Products(
+        product_name=product.product_name,
+        category=product.category,
+        price=product.price
+    )
     db.add(db_customer)
     db.commit()
     db.refresh(db_customer)
@@ -20,14 +22,14 @@ def product_get_all(db: Session):
     return db.query(Products).all()
 
 
-def product_get_one(db: Session, id: UUID):
-    return db.query(Products).filter_by(id=id).one()
+def product_get_one(db: Session, product_id: UUID):
+    return db.query(Products).filter_by(product_id=product_id).one()
 
 
-def product_delete(db: Session, id: UUID):
-    customer = db.query(Products).filter_by(id=id).all()
+def product_delete(db: Session, product_id: UUID):
+    customer = db.query(Products).filter_by(product_id=product_id).all()
     if not customer:
-        return DeleteProductResponse(detail="Product Doesnt Exist")
-    db.query(Products).filter_by(id=id).delete()
+        return DeleteProductResponse(detail="product doesn't exist")
+    db.query(Products).filter_by(product_id=product_id).delete()
     db.commit()
-    return DeleteProductResponse(detail="Product Deleted")
+    return DeleteProductResponse(detail="product deleted")
