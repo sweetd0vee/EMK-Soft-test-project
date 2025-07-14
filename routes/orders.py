@@ -14,6 +14,8 @@ from utils.order_crud import (
      orders_search
 )
 
+from base_logger import logger
+
 # order_create, orders_get_all, order_delete, order_update, order_get_one
 
 
@@ -22,11 +24,13 @@ router_orders = APIRouter(tags=["orders"])
 
 @router_orders.post("/create", status_code=status.HTTP_201_CREATED, response_model=Order)
 def create_order(order: Order, db: Session = Depends(get_db)):
+    logger.info("Call order create endpoint with arguments: ", order)
     return order_create(db=db, order=order)
 
 
 @router_orders.get("/list/all", status_code=status.HTTP_200_OK, response_model=List[Order])
 def get_all_orders(db: Session = Depends(get_db)):
+
     return orders_get_all(db=db)
 
 

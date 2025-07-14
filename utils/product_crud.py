@@ -7,15 +7,15 @@ from schemas.models import Product, DeleteProductResponse
 
 
 def product_create(db: Session, product: Product):
-    db_customer = Products(
+    db_product = Products(
         product_name=product.product_name,
         category=product.category,
         price=product.price
     )
-    db.add(db_customer)
+    db.add(db_product)
     db.commit()
-    db.refresh(db_customer)
-    return db_customer
+    db.refresh(db_product)
+    return db_product
 
 
 def product_get_all(db: Session):
