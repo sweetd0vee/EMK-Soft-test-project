@@ -27,7 +27,6 @@ class Products(Base):
     orders = relationship("Orders", back_populates="product")
 
 
-
 class Orders(Base):
     __tablename__ = "orders"
 

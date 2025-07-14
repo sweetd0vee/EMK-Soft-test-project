@@ -8,6 +8,7 @@ from schemas.models import Product, DeleteProductResponse
 from utils.product_crud import (
     product_create,
     product_get_all,
+    product_get_one,
     product_delete
 )
 
@@ -22,6 +23,11 @@ def create_product(product: Product, db: Session = Depends(get_db)):
 @router_products.get("/list/all", status_code=status.HTTP_200_OK, response_model=List[Product])
 def get_all_products(db: Session = Depends(get_db)):
     return product_get_all(db=db)
+
+
+@router_products.get("/{product_id}", status_code=status.HTTP_200_OK, response_model=Product)
+def get_one_customer(product_id, db: Session = Depends(get_db)):
+    return product_get_one(db=db, product_id=product_id)
 
 
 @router_products.delete("/{product_id}", status_code=status.HTTP_200_OK, response_model=DeleteProductResponse)
