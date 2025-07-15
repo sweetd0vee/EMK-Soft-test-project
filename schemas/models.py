@@ -3,8 +3,10 @@ from uuid import UUID
 from datetime import datetime
 
 from pydantic import BaseModel
+from pydantic import validator
 
 
+# Add validation on UUID & quantity > 0
 class HealthResponse(BaseModel):
     status: str
 
@@ -32,7 +34,7 @@ class Customer(BaseModel):
 
 
 class DeleteCustomerResponse(BaseModel):
-    detail: str
+    description: str
 
 
 class Order(BaseModel):
@@ -47,7 +49,7 @@ class Order(BaseModel):
 
 
 class DeleteOrderResponse(BaseModel):
-    detail: str
+    description: str
 
 
 class UpdateOrder(BaseModel):

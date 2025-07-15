@@ -55,9 +55,9 @@ def get_all_products(db: Session = Depends(get_db)):
 
 
 @router_products.get("/{product_id}", status_code=status.HTTP_200_OK, response_model=Product)
-def get_one_customer(product_id, db: Session = Depends(get_db)):
+def get_one_product(product_id, db: Session = Depends(get_db)):
     """
-    Retrieve a customer by their unique ID.
+    Retrieve a product by their unique ID.
 
     :param product_id: UUID of the product to retrieve.
     :param db: SQLAlchemy Session.

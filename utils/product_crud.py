@@ -27,9 +27,9 @@ def product_get_one(db: Session, product_id: UUID):
 
 
 def product_delete(db: Session, product_id: UUID):
-    customer = db.query(Products).filter_by(product_id=product_id).all()
-    if not customer:
-        return DeleteProductResponse(detail="product doesn't exist")
+    product = db.query(Products).filter_by(product_id=product_id).all()
+    if not product:
+        return DeleteProductResponse(detail="Product doesn't exist")
     db.query(Products).filter_by(product_id=product_id).delete()
     db.commit()
-    return DeleteProductResponse(detail="product deleted")
+    return DeleteProductResponse(detail="Product deleted")

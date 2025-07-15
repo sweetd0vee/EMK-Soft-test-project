@@ -72,9 +72,7 @@ def get_one_customer(customer_id, db: Session = Depends(get_db)):
     return customer
 
 
-@router_customers.delete(
-    "/{customer_id}", status_code=status.HTTP_200_OK, response_model=DeleteCustomerResponse
-)
+@router_customers.delete("/{customer_id}", status_code=status.HTTP_200_OK, response_model=DeleteCustomerResponse)
 def delete_customer(customer_id, db: Session = Depends(get_db)):
     """
     Delete a customer by ID.
@@ -86,13 +84,11 @@ def delete_customer(customer_id, db: Session = Depends(get_db)):
     """
     logger.info("Attempting to delete customer with ID: %s", customer_id)
     delete_status = customer_delete(db=db, customer_id=customer_id)
-
     if delete_status.detail == "Customer doesn't exist":
         logger.warning("Customer with ID %s not found", customer_id)
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Customer not found"
         )
-
     logger.info("Successfully deleted customer with ID: %s", customer_id)
     return delete_status
