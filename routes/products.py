@@ -39,23 +39,55 @@ def create_product(product: Product, db: Session = Depends(get_db)):
 @router_products.get("", status_code=status.HTTP_200_OK, response_model=List[Product])
 def get_all_products(db: Session = Depends(get_db)):
     """
+    Retrieve all products from the database.
+
     :param db: SQLAlchemy Session.
-    :return:
+    :return: List[Product]: List of all Product objects.
     """
-    return product_get_all(db=db)
+    logger.info("Call get all products endpoint")
+    try:
+        return product_get_all(db=db)
+    except Exception as e:
+        logger.error("Failed to retrieve product: %s", e, exc_info=True)
+        raise HTTPException(status_code=500, detail="Failed to retrieve product")
 
 
 @router_products.get("/{product_id}", status_code=status.HTTP_200_OK, response_model=Product)
 def get_one_customer(product_id, db: Session = Depends(get_db)):
-    return product_get_one(db=db, product_id=product_id)
+    """
+    Retrieve a customer by their unique ID.
+
+    :param product_id: UUID of the product to retrieve.
+    :param db: SQLAlchemy Session.
+    :return: The customer data.
+    :raises HTTPException: 404 if customer not found.
+    """
+    logger.info(f"Fetching customer with ID: {product_id}")
+    customer = product_get_one(db=db, product_id=product_id)
+    if not customer:
+        logger.warning(f"Product with ID {product_id} not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
+    return customer
 
 
 @router_products.delete("/{product_id}", status_code=status.HTTP_200_OK, response_model=DeleteProductResponse)
 def delete_product(product_id, db: Session = Depends(get_db)):
+    """
+
+    :param product_id: UUID of the product to retrieve.
+    :param db: SQLAlchemy Session.
+    :return: dict: Deletion confirmation or details.
+    :raises HTTPException: 404 if customer not found.
+    """
+    logger.info("Attempting to delete product with ID: %s", product_id)
     delete_status = product_delete(db=db, product_id=product_id)
-    if delete_status.detail == "product doesn't exist":
+
+    if delete_status.detail == "Product doesn't exist":
+        logger.warning("Product with ID %s not found", product_id)
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="product not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Product not found"
         )
-    else:
-        return delete_status
+
+    logger.info("Successfully deleted product with ID: %s", product_id)
+    return delete_status
