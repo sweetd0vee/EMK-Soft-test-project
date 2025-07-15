@@ -11,12 +11,11 @@ from utils.order_crud import (
      order_create,
      orders_get_all,
      order_get_one,
+     orders_get_by_customer,
      order_delete,
      order_update,
      orders_search
 )
-
-# order_create, orders_get_all, order_delete, order_update, order_get_one
 
 
 router_orders = APIRouter(tags=["orders"])
@@ -78,6 +77,32 @@ def update_order(order: UpdateOrder, db: Session = Depends(get_db)):
     return order_update(db=db, order=order)
 
 
+@router_customers.get("/customer_id", status_code=status.HTTP_200_OK, response_model=List[Order])
+def get_orders_by_customer(customer_id, db: Session = Depends(get_db)):
+    """
+    Retrieve a list of all orders with customer_id.
+
+    :param: customer_id: UUID of the customer whose orders are to be fetched.
+    :param: db (Session): SQLAlchemy database session.
+    :return: List[Order]: A list of all order records.
+    :raises: HTTPException: 404 if the customer or orders are not found.
+             HTTPException: 500 if the database retrieval fails.
+    """
+    logger.info(f"Fetching orders for customer with ID: {customer_id}")
+    try:
+        orders = orders_get_by_customer(db=db, customer_id=customer_id)  # Implement this helper function
+        if not orders:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No orders found for this customer")
+        logger.info(f"Found {len(orders)} orders for customer {customer_id}")
+        return orders
+
+    except HTTPException:  # Re-raise HTTP exceptions for 404
+        raise
+    except Exception as e:
+        logger.error(f"Failed to retrieve orders for customer {customer_id}: {e}", exc_info=True)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve orders")
+
+
 @router_orders.post("/search", status_code=status.HTTP_200_OK, response_model=List[Order])
 def search_orders(filter: OrdersSearchFilter, db: Session = Depends(get_db)):
     """
@@ -86,6 +111,7 @@ def search_orders(filter: OrdersSearchFilter, db: Session = Depends(get_db)):
     :param filter (OrdersSearchFilter): Filtering criteria for searching orders.
     :param db (Session): Database session dependency.
     :return: List[Order]: List of orders matching the given filter.
+    :raises: HTTPException: When search fails due to internal error.
     """
     logger.info("Search orders called with filter: %s", filter)
     try:
@@ -93,4 +119,4 @@ def search_orders(filter: OrdersSearchFilter, db: Session = Depends(get_db)):
         return results
     except Exception as e:
         logger.error("Failed to search orders: %s", e, exc_info=True)
-        raise HTTPException(status_code=500, detail="Failed to search orders")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to search orders")

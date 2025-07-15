@@ -1,11 +1,12 @@
 from base_logger import logger
-from typing import List
+from database.connection import get_db
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from schemas.models import Product, DeleteProductResponse
 from sqlalchemy.orm import Session
 
-from database.connection import get_db
-from schemas.models import Product, DeleteProductResponse
+from typing import List
+
 from utils.product_crud import (
     product_create,
     product_get_all,
@@ -43,6 +44,7 @@ def get_all_products(db: Session = Depends(get_db)):
 
     :param db: SQLAlchemy Session.
     :return: List[Product]: List of all Product objects.
+    :raises: HTTPException: 500 if failed to retrieve products.
     """
     logger.info("Call get all products endpoint")
     try:

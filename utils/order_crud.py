@@ -93,6 +93,17 @@ def order_get_one(db: Session, order_id: UUID):
     return db.query(Orders).filter_by(order_id=order_id).one()
 
 
+def orders_get_by_customer(db: Session, customer_id: UUID):
+    """
+        Return the order object with passed UUID order_id.
+
+        :param db: SQLAlchemy Session object to interact with the database
+        :param customer_id: UUID of the customer_id whose orders to retrieve
+        :return: The order objects matching the given order_id
+    """
+    return db.query(Orders).filter_by(customer_id=customer_id).all()
+
+
 def orders_search(db: Session, filter: OrdersSearchFilter):
     """
     Search orders based on optional filter criteria.

@@ -1,11 +1,12 @@
 from base_logger import logger
-from typing import List
+from database.connection import get_db
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from schemas.models import Customer, DeleteCustomerResponse
 from sqlalchemy.orm import Session
 
-from database.connection import get_db
-from schemas.models import Customer, DeleteCustomerResponse
+from typing import List
+
 from utils.customer_crud import (
     customer_create,
     customer_get_one,
@@ -24,7 +25,7 @@ def create_customer(customer: Customer, db: Session = Depends(get_db)):
     :param customer: Customer data to create, validated by Pydantic model `Customer`.
     :param db: SQLAlchemy Session.
     :return: The created customer instance.
-    :raises HTTPException: If customer creation fails due to internal error.
+    :raises: HTTPException: If customer creation fails due to internal error.
     """
     logger.info("Call customer create endpoint with arguments: %s", customer)
     try:
@@ -43,6 +44,7 @@ def get_all_customers(db: Session = Depends(get_db)):
 
     :param:  db (Session): SQLAlchemy database session.
     :return: List[Customer]: A list of all customer records.
+    :raises: HTTPException: 500 if failed to retrieve customers.
     """
     logger.info("Call get all customers endpoint")
     try:
@@ -60,7 +62,7 @@ def get_one_customer(customer_id, db: Session = Depends(get_db)):
     :param customer_id: UUID of the customer to retrieve.
     :param db: SQLAlchemy Session.
     :return: The customer data.
-    :raises HTTPException: 404 if customer not found.
+    :raises: HTTPException: 404 if customer not found.
     """
     logger.info(f"Fetching customer with ID: {customer_id}")
     customer = customer_get_one(db=db, customer_id=customer_id)
@@ -78,7 +80,7 @@ def delete_customer(customer_id, db: Session = Depends(get_db)):
     Delete a customer by ID.
 
     :param customer_id: The UUID of the customer to delete.
-    :param db: SQLAlchemy Session
+    :param db: SQLAlchemy Session.
     :return: dict: Deletion confirmation or details.
     :raises: HTTPException: 404 if customer does not exist.
     """
