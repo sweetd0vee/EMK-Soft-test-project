@@ -24,14 +24,37 @@ router_orders = APIRouter(tags=["orders"])
 
 @router_orders.post("/create", status_code=status.HTTP_201_CREATED, response_model=Order)
 def create_order(order: Order, db: Session = Depends(get_db)):
-    logger.info("Call order create endpoint with arguments: ", order)
-    return order_create(db=db, order=order)
+    """
+    Create a new order.
+
+    :param order: Order data to create, validated by Pydantic model `Order`
+    :param db: Database session dependency
+    :return: The created order instance
+    :raises HTTPException: If order creation fails due to internal error
+    """
+    logger.info("Call order create endpoint with arguments: %s", order)
+    try:
+        created_order = order_create(db=db, order=order)
+        return created_order
+    except Exception as e:
+        logger.error("Failed to create order: %s", e, exc_info=True)
+        raise HTTPException(status_code=500, detail="Failed to create order")
 
 
 @router_orders.get("/list/all", status_code=status.HTTP_200_OK, response_model=List[Order])
 def get_all_orders(db: Session = Depends(get_db)):
-
-    return orders_get_all(db=db)
+    """
+        Retrieve all orders from the database.
+    """
+    logger.info("Call get all orders endpoint")
+    try:
+        return orders_get_all(db=db)
+    except Exception as e:
+        logger.error("Failed to retrieve all orders: %s", e, exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to fetch orders"
+        )
 
 
 @router_orders.delete("/{order_id}", status_code=status.HTTP_200_OK, response_model=DeleteOrderResponse)

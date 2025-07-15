@@ -1,4 +1,4 @@
-FROM python:3.7.16
+FROM python:3.9
 
 WORKDIR /
 
@@ -16,6 +16,7 @@ COPY routes /python/routes
 COPY schemas /python/schemas
 COPY utils /python/utils
 COPY main.py /python/main.py
+COPY base_logger.py /python/base_logger.py
 
 WORKDIR /python/
 
