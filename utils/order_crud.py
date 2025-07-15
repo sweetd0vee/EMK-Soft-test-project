@@ -17,7 +17,7 @@ def order_create(db: Session, order: Order):
 
     :param db: SQLAlchemy Session
     :param order: Order data to create
-    :return: The created Orders instance
+    :return: The created Order instance
     """
     db_order = Orders(
         order_date=order.order_date,
@@ -95,6 +95,13 @@ def order_get_one(db: Session, order_id: UUID):
 
 
 def orders_search(db: Session, filter: OrdersSearchFilter):
+    """
+    Search orders based on optional filter criteria.
+
+    :param db: SQLAlchemy Session
+    :param filter: OrdersSearchFilter instance with optional search parameters
+    :return: List of Orders matching the filter criteria
+    """
     query = db.query(Orders)
     if filter.order_id:
         query = query.filter_by(order_id=filter.order_id)

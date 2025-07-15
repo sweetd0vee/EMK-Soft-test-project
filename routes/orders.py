@@ -1,3 +1,5 @@
+from base_logger import logger
+
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -13,8 +15,6 @@ from utils.order_crud import (
      order_update,
      orders_search
 )
-
-from base_logger import logger
 
 # order_create, orders_get_all, order_delete, order_update, order_get_one
 
