@@ -1,4 +1,3 @@
-from base_logger import logger
 from database.models import Customers
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -9,24 +8,14 @@ from uuid import UUID
 
 
 def customer_create(db: Session, customer: Customer):
-    """
-    Create a new customer record in the database.
-
-    :param db: SQLAlchemy Session
-    :param customer: Customer data to create
-    :return: The created Customer instance
-    """
     db_customer = Customers(customer_name=customer.customer_name)
     try:
         db.add(db_customer)
         db.commit()
         db.refresh(db_customer)
-        logger.info("Saved customer with customer_id = ", db_customer.customer_id)
         return db_customer
     except SQLAlchemyError as e:
         db.rollback()
-        logger.error("Failed to save customer: %s", e, exc_info=True)
-        # Optionally, re-raise or handle the exception as needed
         raise
 
 

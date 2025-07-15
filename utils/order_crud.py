@@ -34,7 +34,6 @@ def order_create(db: Session, order: Order):
     except SQLAlchemyError as e:
         db.rollback()
         logger.error("Failed to save order: %s", e, exc_info=True)
-        # Optionally, re-raise or handle the exception as needed
         raise
 
 

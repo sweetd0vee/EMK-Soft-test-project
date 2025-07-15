@@ -22,7 +22,7 @@ from utils.order_crud import (
 router_orders = APIRouter(tags=["orders"])
 
 
-@router_orders.post("/create", status_code=status.HTTP_201_CREATED, response_model=Order)
+@router_orders.post("", status_code=status.HTTP_201_CREATED, response_model=Order)
 def create_order(order: Order, db: Session = Depends(get_db)):
     """
     Create a new order.
@@ -41,7 +41,7 @@ def create_order(order: Order, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail="Failed to create order")
 
 
-@router_orders.get("/list/all", status_code=status.HTTP_200_OK, response_model=List[Order])
+@router_orders.get("", status_code=status.HTTP_200_OK, response_model=List[Order])
 def get_all_orders(db: Session = Depends(get_db)):
     """
         Retrieve all orders from the database.
@@ -80,4 +80,17 @@ def update_order(order: UpdateOrder, db: Session = Depends(get_db)):
 
 @router_orders.post("/search", status_code=status.HTTP_200_OK, response_model=List[Order])
 def search_orders(filter: OrdersSearchFilter, db: Session = Depends(get_db)):
-    return orders_search(db=db, filter=filter)
+    """
+    Search for orders based on provided filter criteria.
+
+    :param filter (OrdersSearchFilter): Filtering criteria for searching orders.
+    :param db (Session): Database session dependency.
+    :return: List[Order]: List of orders matching the given filter.
+    """
+    logger.info("Search orders called with filter: %s", filter)
+    try:
+        results = orders_search(db=db, filter=filter)
+        return results
+    except Exception as e:
+        logger.error("Failed to search orders: %s", e, exc_info=True)
+        raise HTTPException(status_code=500, detail="Failed to search orders")
