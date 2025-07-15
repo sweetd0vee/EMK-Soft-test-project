@@ -1,3 +1,4 @@
+from base_logger import logger
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -17,11 +18,29 @@ router_customers = APIRouter(tags=["customers"])
 
 @router_customers.post("/create", status_code=status.HTTP_201_CREATED, response_model=Customer)
 def create_customer(customer: Customer, db: Session = Depends(get_db)):
-    return customer_create(db=db, customer=customer)
+    """
+    Create a new customer.
+
+    :param customer: Customer data to create, validated by Pydantic model `Customer`
+    :param db: SQLAlchemy Session
+    :return: The created customer instance
+    :raises HTTPException: If customer creation fails due to internal error
+    """
+    try:
+        new_customer = customer_create(db=db, customer=customer)
+        return new_customer
+    except Exception as e:
+        logger.error("Failed to create customer: %s", e, exc_info=True)
+        raise HTTPException(status_code=500, detail="Failed to create customer")
 
 
 @router_customers.get("/list/all", status_code=status.HTTP_200_OK, response_model=List[Customer])
 def get_all_customers(db: Session = Depends(get_db)):
+    """
+
+    :param db:
+    :return:
+    """
     return customers_get_all(db=db)
 
 

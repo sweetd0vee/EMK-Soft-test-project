@@ -28,7 +28,7 @@ def create_order(order: Order, db: Session = Depends(get_db)):
     Create a new order.
 
     :param order: Order data to create, validated by Pydantic model `Order`
-    :param db: Database session dependency
+    :param db: SQLAlchemy Session
     :return: The created order instance
     :raises HTTPException: If order creation fails due to internal error
     """
