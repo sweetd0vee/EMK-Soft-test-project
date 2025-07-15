@@ -77,7 +77,7 @@ def update_order(order: UpdateOrder, db: Session = Depends(get_db)):
     return order_update(db=db, order=order)
 
 
-@router_customers.get("/customer_id", status_code=status.HTTP_200_OK, response_model=List[Order])
+@router_orders.get("/customers/{customer_id}", status_code=status.HTTP_200_OK, response_model=List[Order])
 def get_orders_by_customer(customer_id, db: Session = Depends(get_db)):
     """
     Retrieve a list of all orders with customer_id.
