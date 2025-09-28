@@ -1,28 +1,17 @@
-from http.client import HTTPException
-
-import joblib
-import numpy as np
-import pandas as pd
-from fastapi import FastAPI, File, UploadFile
-from typing import Annotated
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from artifacts.features import CATEGORICAL, FEATURES
-
-import io
 
 import logging
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from routes.customers import router_customers
+from routes.orders import router_orders
+from routes.products import router_products
 
-# Load the pre-trained XGBoost model
-model = joblib.load('artifacts/XGBoost.joblib')
-categorical_le = joblib.load('artifacts/label_encoders.joblib')
+from schemas.models import HealthResponse
+from base_logger import logger
 
 app = FastAPI()
 
-# CORS middleware allowing all origins and methods
 origins = ["*"]
 
 app.add_middleware(
@@ -33,41 +22,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-@app.post("/predict")
-async def predict(file: UploadFile = File(...)):
-    logger.info("call predict")
-
-    # Validation of file type
-    if not file.filename.endswith('.csv'):
-        raise HTTPException(400, "File must be CSV")
-
-    contents = await file.read()
-    csvdata = pd.read_csv(io.StringIO(contents.decode('utf-8')))
-    data = pd.DataFrame(csvdata)
-
-    logger.info(data)
-
-    # Validation of columns in input file
-    required_cols = ['ID'] + FEATURES
-    if not all(c in data.columns for c in required_cols):
-        raise HTTPException(400, f"Missing required columns")
-
-    data = data.set_index('ID')
-    # Encoded categorical features in PredictionInput
-    for c in CATEGORICAL:
-        data[c] = categorical_le.transform(data[c].astype('str'))
-
-    # Convert input features to a NumPy array
-    input_array = np.array(data[FEATURES]).reshape(1, -1)
-
-    # Make prediction
-    prediction = model.predict(input_array).tolist()
-    prediction_proba = model.predict_proba(input_array).tolist()
-    return {"prediction": prediction[0], "prediction_probability": prediction_proba[0]}
+app.include_router(router=router_customers, prefix="/customers")
+app.include_router(router=router_products, prefix="/products")
+app.include_router(router=router_orders, prefix="/orders")
 
 
-# Health check endpoint
-@app.get("/")
-async def root():
-    return {"message": "XGBoost Model API is running!"}
+@app.get("/", response_model=HealthResponse)
+async def health():
+    logger.info("Root endpoint accessed")
+    return HealthResponse(status="Ok")
